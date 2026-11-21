@@ -21,6 +21,10 @@ app.config['MAX_CONTENT_LENGTH'] = 256 * 1024
 def check_origin():
     if request.method in ('POST', 'PUT', 'PATCH', 'DELETE') and request.headers.get('Origin'):
         allowed = {request.host_url.rstrip('/')} | {x.strip().rstrip('/') for x in os.getenv('ALLOWED_ORIGINS', 'http://localhost:5173').split(',') if x.strip()}
+        # Render terminates HTTPS at its proxy, so Flask otherwise sees an HTTP host URL.
+        render_url = os.getenv('RENDER_EXTERNAL_URL', '').strip().rstrip('/')
+        if render_url:
+            allowed.add(render_url)
         if request.headers['Origin'].rstrip('/') not in allowed:
             abort(403)
 

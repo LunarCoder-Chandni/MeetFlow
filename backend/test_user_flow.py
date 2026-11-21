@@ -34,6 +34,12 @@ def fake(prompt, schema=None):
     return 'Your exhibition tasks and decisions are ready for review.'
 
 class UserWorkflow(unittest.TestCase):
+    def test_render_public_origin_is_allowed_but_other_origins_are_rejected(self):
+        with patch.dict(os.environ, {'RENDER_EXTERNAL_URL': 'https://example.onrender.com'}):
+            c = A.app.test_client()
+            self.assertEqual(c.post('/api/auth/demo', json={}, headers={'Origin': 'https://example.onrender.com'}).status_code, 400)
+            self.assertEqual(c.post('/api/auth/demo', json={}, headers={'Origin': 'https://attacker.example'}).status_code, 403)
+
     def test_end_to_end(self):
         c = A.app.test_client()
         account = {'organization':'Exhibition','organization_code':'exhibition-secret-code','email':'admin@example.com','name':'Admin','password':'password-at-least-12','designation':'admin','create_organization':True}
