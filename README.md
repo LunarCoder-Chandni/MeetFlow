@@ -5,6 +5,7 @@
 An agentic meeting assistant for the Product Space Agentic AI Hackathon (PS 03: Meeting-to-Execution Agent).
 It turns transcripts into decisions and tasks, remembers them across meetings, flags contradictions for human review,
 and only sends work to GitHub after approval.
+It helps teams track commitments and accountability across their meetings using Gemini AI.
 
 ## What makes it agentic
 Each meeting runs through **Observe → Reason → Plan → Request approval → Execute → Remember**, shown live on the meeting page.
